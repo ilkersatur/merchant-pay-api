@@ -19,7 +19,7 @@
 - RESTful API design
 - JSON-based data contracts
 - Middleware for request/response processing
-- Optional Docker support and CI/CD integration with Jenkins
+- HMACSHA512 for cryptographic hashing
 
 ---
 
