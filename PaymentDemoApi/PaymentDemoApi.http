@@ -1,0 +1,6 @@
+@VposApi_HostAddress = http://localhost:5085
+
+GET {{VposApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
