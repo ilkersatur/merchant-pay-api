@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> VPOS TEST ÖDEME</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="shortcut icon" href="#">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img src="assets/images/logo_big.png" class="logo-icon" />
+                <span>&nbsp; VPOS TEST ÖDEME</span>
+            </div>
+            <nav class="main-nav">
+            </nav>
+        </header>
+        <div id="loading" style="display: none; text-align: center; font-family: sans-serif;">
+            <div class="spinner"></div>
+            <p>İşlem yapılıyor, lütfen bekleyin...</p>
+        </div>
+
+        <div class="step-progress">
+            <div class="step step-active">1</div>
+            <div class="step-line-active"></div>
+            <div class="step step-active">2</div>
+            <div class="step-line-active"></div>
+            <div class="step step-active">3</div>
+            <div class="step-line"></div>
+            <div class="step">4</div>
+        </div>
+
+        <div class="main-content-wrapper">
+            <div class="content">
+            </div>
+            <div class="right-panel">
+
+                <div class="secure-model-info">
+                    <div>
+                        <strong>3D model:</strong> Kartlı ödemelerde kullanılan iki aşamalı bir güvenlik sürecidir. Bu modelde:<br><br>
+
+                        <strong>1. Doğrulama (Authentication):</strong><br>
+                        Kart sahibi, ödeme sırasında kartı veren banka (issuer) tarafından doğrulama adımına yönlendirilir. SMS veya mobil onay gibi yöntemlerle işlem onaylanır.<br><br>
+
+                        <strong>2. Provizyon (Authorization):</strong><br>
+                        Doğrulama başarılı olursa, işlemle ilgili güvenlik parametreleri iş yeri bankasına (acquirer) iletilir ve ödeme işlemi tamamlanmak üzere provizyon alınır.
+                    </div>
+                    </divclass="secure-model-info">
+                    <br>
+
+                    <h3><i class="fas fa-check"></i>Secure İşlem Sonucu</h3>
+
+                    <div class="summary-item">
+                        <span>3DS Sunucu İşlem ID</span>
+                        <span id="threeDSServerTransID"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span>DS Trans ID</span>
+                        <span id="dsTransID"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span>ACS Trans ID</span>
+                        <span id="acsTransID"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span>3DS İşlem Durumu</span>
+                        <span id="threeDSTransStatus"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span>3DS İşlem Durum Nedeni</span>
+                        <span id="threeDSTransStatusReason"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Kimlik Doğrulama Protokolü</span>
+                        <span id="authenticationProtocol"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span>AV</span>
+                        <span id="av"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span>ECI</span>
+                        <span id="eci"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span>İşlem ID</span>
+                        <span id="TransactionId"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Sipariş ID</span>
+                        <span id="OrderId"></span>
+                    </div>
+                    <button class="btn primary-btn" id="Approve">Onayla</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="secureResult.html.js"></script>
+</body>
+</html>

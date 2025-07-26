@@ -7,10 +7,73 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\payment-demo-2\result - Copy.html.js" />
+    <Content Remove="wwwroot\payment-demo-2\secureResult.html" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FluentValidation" Version="12.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.4" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\payment-demo-2\assets\css\animated.css" />
+    <None Include="wwwroot\payment-demo-2\assets\css\card.css" />
+    <None Include="wwwroot\payment-demo-2\assets\css\fontawesome.css" />
+    <None Include="wwwroot\payment-demo-2\assets\css\owl.css" />
+    <None Include="wwwroot\payment-demo-2\assets\css\templatemo-chain-app-dev.css" />
+    <None Include="wwwroot\payment-demo-2\assets\fonts\Flaticon.woff" />
+    <None Include="wwwroot\payment-demo-2\assets\fonts\flexslider-icon.eot" />
+    <None Include="wwwroot\payment-demo-2\assets\fonts\flexslider-icon.svg" />
+    <None Include="wwwroot\payment-demo-2\assets\fonts\flexslider-icon.ttf" />
+    <None Include="wwwroot\payment-demo-2\assets\fonts\flexslider-icon.woff" />
+    <None Include="wwwroot\payment-demo-2\assets\fonts\fontawesome-webfont.eot" />
+    <None Include="wwwroot\payment-demo-2\assets\fonts\fontawesome-webfont.svg" />
+    <None Include="wwwroot\payment-demo-2\assets\fonts\fontawesome-webfont.ttf" />
+    <None Include="wwwroot\payment-demo-2\assets\fonts\fontawesome-webfont.woff" />
+    <None Include="wwwroot\payment-demo-2\assets\fonts\fontawesome-webfont.woff2" />
+    <None Include="wwwroot\payment-demo-2\assets\fonts\FontAwesome.otf" />
+    <None Include="wwwroot\payment-demo-2\assets\fonts\slick.eot" />
+    <None Include="wwwroot\payment-demo-2\assets\fonts\slick.svg" />
+    <None Include="wwwroot\payment-demo-2\assets\fonts\slick.ttf" />
+    <None Include="wwwroot\payment-demo-2\assets\fonts\slick.woff" />
+    <None Include="wwwroot\payment-demo-2\assets\images\amex.png" />
+    <None Include="wwwroot\payment-demo-2\assets\images\emv.png" />
+    <None Include="wwwroot\payment-demo-2\assets\images\logo-min.png" />
+    <None Include="wwwroot\payment-demo-2\assets\images\logo-removebg-preview.png" />
+    <None Include="wwwroot\payment-demo-2\assets\images\logo.png" />
+    <None Include="wwwroot\payment-demo-2\assets\images\logo_big.png" />
+    <None Include="wwwroot\payment-demo-2\assets\images\mastercard.png" />
+    <None Include="wwwroot\payment-demo-2\assets\images\-logo-beyazustune.png" />
+    <None Include="wwwroot\payment-demo-2\assets\images\pay_logo.png" />
+    <None Include="wwwroot\payment-demo-2\assets\images\regular-table-bottom.png" />
+    <None Include="wwwroot\payment-demo-2\assets\images\regular-table-top.png" />
+    <None Include="wwwroot\payment-demo-2\assets\images\service-bg.jpg" />
+    <None Include="wwwroot\payment-demo-2\assets\images\service-bg2.jpg" />
+    <None Include="wwwroot\payment-demo-2\assets\images\troy.png" />
+    <None Include="wwwroot\payment-demo-2\assets\images\visa.png" />
+    <None Include="wwwroot\payment-demo-2\index.html" />
+    <None Include="wwwroot\payment-demo-2\payment.html" />
+    <None Include="wwwroot\payment-demo-2\payment.html.js" />
+    <None Include="wwwroot\payment-demo-2\secureResult.html" />
+    <None Include="wwwroot\payment-demo-2\secureResult.html.js" />
+    <None Include="wwwroot\payment-demo-2\result.html" />
+    <None Include="wwwroot\payment-demo-2\result.html.js" />
+    <None Include="wwwroot\payment-demo-2\index.html.js" />
+    <None Include="wwwroot\payment-demo-2\style.css" />
+    <None Include="wwwroot\payment-demo-2\vendor\bootstrap\css\bootstrap.min.css" />
+    <None Include="wwwroot\payment-demo-2\vendor\bootstrap\css\bootstrap.min.css.map" />
+    <None Include="wwwroot\payment-demo-2\vendor\bootstrap\js\bootstrap.bundle.min.js" />
+    <None Include="wwwroot\payment-demo-2\vendor\bootstrap\js\bootstrap.bundle.min.js.map" />
+    <None Include="wwwroot\payment-demo-2\vendor\bootstrap\js\bootstrap.min.js" />
+    <None Include="wwwroot\payment-demo-2\vendor\jquery\jquery.js" />
+    <None Include="wwwroot\payment-demo-2\vendor\jquery\jquery.min.js" />
+    <None Include="wwwroot\payment-demo-2\vendor\jquery\jquery.min.map" />
+    <None Include="wwwroot\payment-demo-2\vendor\jquery\jquery.slim.js" />
+    <None Include="wwwroot\payment-demo-2\vendor\jquery\jquery.slim.min.js" />
+    <None Include="wwwroot\payment-demo-2\vendor\jquery\jquery.slim.min.map" />
   </ItemGroup>
 
 </Project>

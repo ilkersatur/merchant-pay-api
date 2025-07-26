@@ -1,0 +1,832 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f2f5;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+body {
+    background-image: url('assets/images/service-bg.jpg'); /* veya tam URL: 'https://example.com/bg.jpg' */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+}
+
+.container {
+    background-color: #f7f9fb;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 960px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 30px;
+    border-bottom: 1px solid #eee;
+    background-color: #f7f9fc;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    font-weight: 500;
+    color: #333;
+    white-space: nowrap;
+}
+
+    .logo i {
+        color: #002852;
+        margin-right: 10px;
+    }
+
+.secure-info {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #666;
+    white-space: nowrap;
+}
+
+    .secure-info i {
+        color: #28a745;
+        margin-right: 5px;
+    }
+
+/* --- Menu Styles --- */
+.main-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 20px;
+}
+
+.main-nav li {
+    position: relative;
+}
+
+.main-nav a {
+    text-decoration: none;
+    color: #555;
+    font-weight: 500;
+    padding: 10px 0;
+    display: block;
+    transition: color 0.2s ease;
+}
+
+    .main-nav a:hover {
+        color: #002852;
+    }
+
+.main-nav .dropbtn i {
+    margin-left: 5px;
+    transition: transform 0.2s ease;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    min-width: 160px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    z-index: 100;
+    border-radius: 4px;
+    overflow: hidden;
+    top: 100%;
+    left: 0;
+    padding: 5px 0;
+}
+
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        text-align: left;
+    }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+            color: #002852;
+        }
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn i {
+    transform: rotate(180deg);
+}
+
+/* --- main-content-wrapper (Header altındaki koyu arka planlı alan) --- */
+.main-content-wrapper {
+    background-color: #ffffff; /* Hafif koyu gri/mavi ton. Daha koyu için #e0e6ed deneyin */
+    padding: 20px; /* Panellerin etrafındaki boşluk */
+}
+
+/* --- content (Tüm ana panellerin ana flex kapsayıcısı) --- */
+.content {
+    display: flex;
+    flex-wrap: wrap; /* Gerekirse alt satıra geçsin */
+    gap: 30px; /* Sol sütun ile sağ sütun arası boşluk */
+    align-items: flex-start; /* İçerik yukarıdan başlasın */
+}
+
+/* --- left-column-panels (Sol sütundaki tüm panel-section'ları kapsayan div) --- */
+.left-column-panels {
+    flex: 2; /* Sağdaki İşlem Özeti'ne göre daha geniş */
+    display: flex;
+    flex-direction: column; /* İçindeki panel-section'lar alt alta sıralansın */
+    gap: 20px; /* panel-section'lar arası boşluk */
+    min-width: 450px; /* Bu konteynerin min genişliği */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Gölge */
+}
+
+/* --- right-panel (Sağdaki tek İşlem Özeti paneli) --- */
+.right-panel {
+    flex: 1; /* Daha dar */
+    background-color: #f6f9fc; /* Beyaz arkaplan */
+    padding: 25px; /* İç boşluk */
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Gölge */
+    min-width: 300px; /* Minimum genişlik */
+}
+
+/* --- panel-section (Her bir beyaz kutu bölümü) --- */
+.panel-section {
+    background-color: #f6f9fc; /* Beyaz arkaplan */
+    padding: 25px; /* İç boşluk */
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Gölge */
+}
+
+    /* Başlık ve form elemanı stilleri */
+    .panel-section h3, .right-panel h3 {
+        font-size: 16px;
+        color: #002852;
+        margin-bottom: 15px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        align-items: center;
+    }
+
+        .panel-section h3 i, .right-panel h3 i {
+            margin-right: 8px;
+            color: #555;
+        }
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+    .form-group label {
+        display: block;
+        font-size: 13px;
+        color: #555;
+        margin-bottom: 5px;
+    }
+
+    .form-group input[type="text"],
+    .form-group select {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+        color: #333;
+        box-sizing: border-box;
+        background-color: #fefefe;
+    }
+
+    .form-group input[type="password"],
+    .form-group select {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+        color: #333;
+        box-sizing: border-box;
+        background-color: #fefefe;
+    }
+
+        .form-group input[type="text"]:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #002852;
+            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+        }
+
+        .form-group input[type="password"]:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #002852;
+            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+        }
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+    .checkbox-group input[type="checkbox"] {
+        width: auto;
+        margin-right: 8px;
+        transform: scale(1.2);
+    }
+
+    .checkbox-group label {
+        margin-bottom: 0;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px dotted #eee;
+    font-size: 14px;
+    color: #333;
+}
+
+    .summary-item:last-child {
+        border-bottom: none;
+    }
+
+    .summary-item span:first-child {
+        color: #666;
+    }
+
+.btn {
+    display: block;
+    width: 100%;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    margin-top: 20px;
+}
+
+.primary-btn {
+    background-color: #002852;
+    color: #fff;
+}
+
+    .primary-btn:hover {
+        background-color: #0056b3;
+        transform: translateY(-1px);
+    }
+
+.secondary-btn {
+    background-color: #f8f9fa;
+    color: #002852;
+    border: 1px solid #002852;
+    margin-top: 10px;
+}
+
+    .secondary-btn:hover {
+        background-color: #e2e6ea;
+        transform: translateY(-1px);
+    }
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+    .content {
+        flex-direction: column;
+        padding: 0;
+        gap: 20px; /* Ana konteynerler arası boşluk */
+    }
+
+    .left-column-panels, .right-panel { /* Tüm ana panelleri hedefle */
+        flex: unset;
+        width: 100%;
+        min-width: unset;
+    }
+
+    .panel-section { /* İç paneller için */
+        margin-bottom: 0; /* Kendi içlerinde margin olmasın, gap hallediyor */
+    }
+
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 15px 20px;
+        gap: 10px;
+    }
+
+    .main-nav {
+        width: 100%;
+        order: 3;
+    }
+
+        .main-nav ul {
+            flex-direction: column;
+            gap: 5px;
+            width: 100%;
+        }
+
+        .main-nav li {
+            width: 100%;
+        }
+
+        .main-nav .dropbtn {
+            width: 100%;
+            border: 1px solid #eee;
+            background-color: #f9f9f9;
+            padding: 10px 15px;
+            border-radius: 4px;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+    .dropdown-content {
+        position: static;
+        box-shadow: none;
+        border-top: 1px solid #eee;
+        border-radius: 0;
+        width: 100%;
+        padding: 0;
+    }
+
+        .dropdown-content a {
+            padding: 8px 25px;
+            background-color: #fafafa;
+            border-bottom: 1px dotted #eee;
+        }
+
+            .dropdown-content a:last-child {
+                border-bottom: none;
+            }
+
+    .secure-info {
+        margin-top: 10px;
+        order: 2;
+    }
+
+    .logo {
+        order: 1;
+    }
+
+    .main-content-wrapper {
+        padding: 15px;
+    }
+}
+
+/* JavaScript ile dropdown açılışını desteklemek için */
+.dropdown.active .dropdown-content {
+    display: block;
+}
+
+.dropdown.active .dropbtn i {
+    transform: rotate(180deg);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* --- */
+
+
+
+
+/* Varsayılan kart */
+.card {
+    background: black;
+    color: white;
+    padding: 20px;
+    border-radius: 15px;
+    width: 300px;
+    height: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: background 0.5s;
+}
+
+    /* Kart tipine göre renkli geçişli arka planlar */
+    .card.visa {
+        background: linear-gradient(273deg, #ad9100, #000000); /* mavi */
+    }
+
+    .card.mastercard {
+        background: linear-gradient(273deg, #000391, #000000); /* Kırmızı */
+    }
+
+    .card.troy {
+        background: linear-gradient(273deg, #d40505, #000000); /* Turkuaz */
+    }
+
+    .card.amex {
+        background: linear-gradient(273deg, #146300, #000000); /* Gold */
+    }
+
+.card-logo {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: right;
+    text-transform: uppercase;
+}
+
+.card-number {
+    font-size: 20px;
+    letter-spacing: 2px;
+}
+
+.card-name,
+.card-expiry {
+    font-size: 18px;
+}
+
+.card-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+    .card-form input {
+        padding: 8px;
+        font-size: 14px;
+    }
+
+.card-number-input {
+    display: flex;
+    gap: 10px;
+}
+
+    .card-number-input input {
+        flex: 1;
+    }
+
+
+.card-container {
+    perspective: 1000px;
+    margin-top: 70px;
+}
+
+.card {
+    width: 350px;
+    height: 210px;
+    position: relative;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+}
+
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 15px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.card-front {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    padding: 20px;
+    border-radius: 15px;
+    background-color: gray; /* varsayılan */
+    color: white;
+    transition: background-color 0.5s;
+    overflow: hidden;
+}
+
+/* Kart tipine göre renkler */
+.card.visa .card-front {
+    background-color: #fcce00; /* turkuaz */
+}
+
+.card.mastercard .card-front {
+    background-color: #008ffc; /* mavi */
+}
+
+.card.troy .card-front {
+    background-color: #ff4242; /* kırmızı */
+}
+
+.card.amex .card-front {
+    background-color: #00a000; /* gold */
+}
+
+.card-header-front {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chip img {
+    height: 70px;
+    width: auto;
+}
+
+.card-logo img {
+    height: 100px !important;
+    width: auto;
+}
+
+.card-back {
+    background: #444;
+    color: white;
+    transform: rotateY(180deg);
+}
+
+.card.flipped {
+    transform: rotateY(180deg);
+}
+
+.black-strip {
+    height: 40px;
+    background: black;
+    margin-bottom: 20px;
+}
+
+.signature-box {
+    background: #ccc;
+    color: black;
+    padding: 5px;
+    display: flex;
+    justify-content: space-between;
+    font-family: monospace;
+}
+
+.security-label {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #aaa;
+}
+
+
+.card-front::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    /* left: 50%; */
+    transform: translateX(-50%);
+    width: 1000px;
+    height: 190px;
+    right: -10px;
+    top: 90px;
+    border-radius: 50% 50% 0 0 / 100%;
+    z-index: 1;
+    transform: rotate(10deg);
+}
+
+.card-header-front,
+.card-number,
+.card-name,
+.card-expiry {
+    position: relative;
+    z-index: 2;
+}
+
+.card.visa .card-front::after {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.card.mastercard .card-front::after {
+    background: rgba(0, 0, 0, 0.25);
+}
+
+.card.amex .card-front::after {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.card.troy .card-front::after {
+    background: rgba(0, 0, 0, 0.25);
+}
+
+.section-box {
+    background-color: #f0f0f0;
+    padding: 25px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+}
+
+    .section-box h4 {
+        margin-bottom: 20px;
+        font-weight: 600;
+    }
+
+.main-banner {
+    padding: 250px 120px 50px 120px !important;
+}
+
+.header-area .main-nav .nav li:hover a,
+.header-area .main-nav .nav li a.active {
+    color: #000000 !important;
+}
+
+
+
+.expiry-date-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.card-expiry {
+    margin-top: 10px;
+    font-weight: bold;
+    font-family: monospace;
+}
+
+/* style.css dosyasına eklenecek */
+#transactionType {
+    background-color: #f6f9fc;
+    /* İsteğe bağlı olarak, metin rengini veya kenarlığı da ayarlayabilirsin */
+    /* color: #333; */
+    /* border: 1px solid #ddd; */
+}
+
+.inline-fields {
+    display: flex; /* Esneklik kutusu (flexbox) kullan */
+    gap: 15px; /* Alanlar arasında boşluk bırak (isteğe bağlı) */
+    /* Diğer stil ayarları gerekirse buraya eklenebilir */
+}
+
+    .inline-fields .form-group {
+        flex: 1; /* Her bir form-group'un eşit genişlik almasını sağla */
+        /* İsteğe bağlı olarak, her bir form-group için sabit bir genişlik de verebilirsin, örn: width: 50%; */
+    }
+
+/* responsive düzenlemelerde, küçük ekranlarda alt alta gelmesini sağlayabiliriz */
+@media (max-width: 768px) {
+    .inline-fields {
+        flex-direction: column; /* Küçük ekranlarda alt alta sırala */
+        gap: 0; /* Boşluğu kaldırabiliriz */
+    }
+}
+
+.input-error {
+    border: 1px solid red !important;
+}
+
+img.logo-icon {
+    width: 40px;
+    height: 40px;
+}
+
+#loading {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    z-index: 9999;
+    text-align: center;
+    padding-top: 20%;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+
+
+.active-dropdown > .dropbtn {
+    color: #57caed !important;
+    font-weight: bold;
+    border-bottom: 1px solid #57caed;
+}
+
+.spinner {
+    margin: 0 auto 10px;
+    border: 6px solid #f3f3f3;
+    border-top: 6px solid #3498db;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.secure-model-info div {
+    color: #666;
+    font-size: 14px;
+}
+
+    .secure-model-info div strong {
+        color: #002852;
+        font-weight: bold;
+    }
+
+
+.result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+    .result-header h3 {
+        margin: 0;
+        font-size: 17px;
+    }
+
+.status-text {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+    .status-text.success {
+        color: green;
+    }
+
+    .status-text.fail {
+        color: red;
+    }
+
+
+.step-progress {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0;
+    gap: 10px;
+    margin-left: 70px;
+    margin-right: 70px;
+}
+
+.step {
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+    border-radius: 50%;
+    background-color: #ddd;
+    text-align: center;
+    font-weight: bold;
+    color: #555;
+    position: relative;
+    z-index: 1;
+    font-size: 14px;
+}
+
+    .step.step-active {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+.step-line {
+    height: 4px;
+    flex-grow: 1;
+    background-color: #ddd;
+    z-index: 0;
+    margin: 0 5px;
+}
+
+.step-line-active {
+    height: 4px;
+    flex-grow: 1;
+    background-color: #4CAF50;
+    z-index: 0;
+    margin: 0 5px;
+}

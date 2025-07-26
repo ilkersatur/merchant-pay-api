@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VPOS TEST ÖDEME</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="shortcut icon" href="#">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <!-- <i class="fas fa-shopping-cart"></i> -->
+                
+                <span>&nbsp;VPOS TEST ÖDEME</span>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li class="dropdown active-dropdown">
+                        <a href="#" class="dropbtn">NonSecure <i class="fas fa-caret-down"></i></a>
+                        <div class="dropdown-content">
+                            <a href="#">Satış</a>
+                            <a href="#">Ön Provizyon</a>
+                            <a href="#">Ön Provizyon Kapama</a>
+                            <a href="#">İptal</a>
+                            <a href="#">İade</a>
+                            <a href="#">Mail Order</a>
+                            <a href="#">Moto Insurance</a>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropbtn" style="margin-right: 100px;">Secure <i class="fas fa-caret-down"></i></a>
+                        <div class="dropdown-content">
+                            <a href="#">3D</a>
+                            <a href="#">3D Pay</a>
+                            <a href="#">3D Pay Hosting</a>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+
+        <div id="loading" style="display: none; text-align: center; font-family: sans-serif;">
+            <div class="spinner"></div>
+            <p>İşlem yapılıyor, lütfen bekleyin...</p>
+        </div>
+
+        <div class="step-progress">
+            <div class="step step-active">1</div>
+            <div class="step-line"></div>
+            <div class="step">2</div>
+            <div class="step-line"></div>
+            <div class="step">3</div>
+            <div class="step-line"></div>
+            <div class="step">4</div>
+        </div>
+
+        <div class="main-content-wrapper">
+            <div class="content">
+                <div class="left-column-panels">
+                    <div class="panel-section">
+                        <h3><i class="fas fa-user"></i> Test Üye İşyeri Bilgileri</h3>
+                        <div class="form-group">
+                            <label for="merchantNumber">Üye İşyeri Numarası</label>
+                            <input type="text" id="merchantNumber" name="merchantNumber" value="" maxlength="15" pattern="[0-9]*" inputmode="numeric">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="shopCode">Shop Code</label>
+                            <input type="text" id="shopCode" name="shopCode" value="" maxlength="15">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="userId">Kullanıcı Id</label>
+                            <input type="text" id="userId" name="userId" value="" maxlength="100">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password">Şifre</label>
+                            <input type="text" id="password" name="password" value="" maxlength="18">
+                        </div>
+                        <div class="form-group">
+                            <label value="transactionType">İşlem Tipi</label>
+                            <input type="text" id="transactionType" name="transactionType" value="SATIŞ" disabled="true">
+                        </div>
+
+                        <div class="form-group" style="display:none;">
+                            <label for="secureTransactionType">İşlem Tipi</label>
+                            <select id="secureTransactionType">
+                                <option value="Satış">SATIŞ</option>
+                                <option value="Ön Provizyon">ÖN PROVIZYON</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group" style="display: none;">
+                            <label for="storeType">Store Type</label>
+                            <input type="text" id="storeType" value="3D" name="storeType" maxlength="10" disabled="true">
+                        </div>
+
+                        <div class="form-group" style="display: none;">
+                            <label for="transactionId">İşlem ID</label>
+                            <input type="text" id="transactionId" name="transactionId">
+                        </div>
+                        <div class="inline-fields">
+                            <div class="form-group" style="display: none;">
+                                <label for="bin">BIN</label>
+                                <input type="text" id="bin" name="bin" value="" maxlength="6">
+                            </div>
+                            <div class="form-group" style="display: none;">
+                                <label for="lastFourDigits">Son 4 Hane</label>
+                                <input type="text" id="lastFourDigits" name="lastFourDigits" value="" maxlength="4">
+                            </div>
+                        </div>
+                        <div class="form-group" style="display: none;">
+                            <label for="tcknVkn">TCKN/VKN</label>
+                            <input type="text" id="tcknVkn" name="tcknVkn" value="" maxlength="11">
+                        </div>
+                        <div class="form-group">
+                            <label for="currency">Para Birimi</label>
+                            <select id="currency">
+                                <option value="TRY">TRY</option>
+                                <option value="USD">USD</option>
+                                <option value="EUR">EUR</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="amount">Tutar</label>
+                            <input type="text" id="amount" inputmode="decimal" name="amount" placeholder="0,00">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="installment">Taksit</label>
+                            <select id="installment">
+                                <option value="0">Peşin</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="6">6</option>
+                                <option value="9">9</option>
+                                <option value="12">12</option>
+                                <option value="24">24</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="right-panel">
+                    <h3><i class="fas fa-clipboard"></i> İşlem Özeti</h3>
+                    <div class="summary-item">
+                        <span>Üye İşyeri Numarası</span>
+                        <span id="summaryMerchantNumberDisplay"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Tutar</span>
+                        <span id="summaryAmountDisplay"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Para Birimi</span>
+                        <span id="summaryCurrencyDisplay"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span></span>
+                        <span id="summarySecureDisplay"></span>
+                    </div>
+                    <button class="btn primary-btn" id="createOrderBtn">Sipariş Oluştur</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="index.html.js"></script>
+    <script>
+        // Sayfa her yüklendiğinde localStorage temizlenir
+        window.addEventListener("load", function () {
+        localStorage.clear();
+        });
+        </script>
+</body>
+</html>

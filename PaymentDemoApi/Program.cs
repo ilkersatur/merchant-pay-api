@@ -45,6 +45,7 @@ namespace VposApi
 
             builder.Services.AddScoped<IValidator<PaymentRequest>, PaymentValidator>();
             builder.Services.AddScoped<IValidator<SecureRequest>, SecureValidator>();
+            builder.Services.AddScoped<IValidator<Auth3DSModel>, Auth3DSValidator>();
 
             var app = builder.Build();
 
@@ -56,6 +57,8 @@ namespace VposApi
             }
 
             app.UseHttpsRedirection();
+
+            app.UseStaticFiles();
 
             app.UseCors("AllowAll");
 

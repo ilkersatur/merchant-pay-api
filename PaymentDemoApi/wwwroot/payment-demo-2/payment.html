@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> VPOS TEST ÖDEME</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="shortcut icon" href="#">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <!-- <i class="fas fa-shopping-cart"></i> -->
+                <img src="assets/images/logo_big.png" class="logo-icon" />
+                <span>&nbsp; VPOS TEST ÖDEME</span>
+            </div>
+        </header>
+
+        <div id="loading" style="display: none; text-align: center; font-family: sans-serif;">
+            <div class="spinner"></div>
+            <p>İşlem yapılıyor, lütfen bekleyin...</p>
+        </div>
+
+        <div class="step-progress">
+            <div class="step step-active">1</div>
+            <div class="step-line-active"></div>
+            <div class="step step-active">2</div>
+            <div class="step-line"></div>
+            <div class="step">3</div>
+            <div class="step-line"></div>
+            <div class="step">4</div>
+        </div>
+
+        <div class="main-content-wrapper">
+            <div class="content">
+                <div class="panel-section" style=" width: 400px; ">
+                    <h3><i class="fas fa-credit-card"></i> Kart Bilgileri</h3>
+                    <div class="form-group">
+                        <label for="nameInput">Ad Soyad</label>
+                        <input type="text" id="nameInput" name="cc-name" value="" placeholder="Ad Soyad" maxlength="50">
+                    </div>
+                    <div class="form-group">
+                        <label for="cardInput">Kart No</label>
+                        <input type="text" id="cardInput" name="cc-number" value="" placeholder="XXXX XXXX XXXX XXXX" maxlength="19">
+                    </div>
+                    <div class="form-group">
+                        <label for="expiryDate">Son Kullanma Tarihi</label>
+                        <div class="expiry-date-group">
+                            <select id="expiry-month-input">
+                                <option value="">Ay</option>
+                                <script>
+                                    for (let i = 1; i <= 12; i++) {
+                                        const month = i < 10 ? '0' + i : i;
+                                        document.write(`<option value="${month}">${month}</option>`);
+                                    }
+                                </script>
+                            </select>
+                            <select id="expiry-year-input">
+                                <option value="">Yıl</option>
+                                <script>
+                                    const currentYear = new Date().getFullYear();
+                                    for (let i = 0; i < 10; i++) { // Current year + next 10 years
+                                        const year = (currentYear + i).toString().slice(-2); // Sadece son iki hane
+                                        document.write(`<option value="${year}">${currentYear + i}</option>`);
+                                    }
+                                </script>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="cvvInput">Güvenlik Numarası</label>
+                        <input type="password" id="cvvInput" name="cc-csc" value="" placeholder="000" maxlength="3"
+                               oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                               inputmode="numeric"
+                               pattern="[0-9]*">
+                    </div>
+                </div>
+                <div class="card-container">
+                    <div class="card" id="card">
+                        <!-- Ön yüz -->
+                        <div class="card-front">
+                            <div class="card-header-front">
+                                <div class="chip">
+                                    <img src="assets/images/emv.png" alt="Chip">
+                                </div>
+                                <div class="card-logo" id="card-logo">
+                                    <img id="card-logo-img" src="" alt="" style="display: none;">
+                                </div>
+                            </div>
+                            <div class="card-number" id="card-number"></div>
+                            <div class="card-name" id="card-name">ILKER SATUR</div>
+                            <div class="card-expiry" id="card-expiry">VALID THRU ► 01/23</div>
+                        </div>
+                        <!-- Arka yüz -->
+                        <div class="card-back">
+                            <div class="black-strip"></div>
+                            <div class="signature-box">
+                                <span id="back-name">ILKER SATUR</span>
+                                <span id="cvv-display">000</span>
+                            </div>
+                            <div class="security-label">security code</div>
+                        </div>
+                    </div>
+                </div>
+
+                <form id="paymentForm" action="https://devcard.sim-ant.com/EverestVpos/V1/TdsMerchantGateway/tdsmerchantgateway/api/threeDS" method="POST" style="display: none;">
+                    <input name="storeType" value="">
+                    <input name="transactionType" value="">
+                    <input name="orderId" value="">
+                    <input name="pan" value="">
+                    <input name="cardHolderName" value="">
+                    <input name="expireDate" value="">
+                    <input name="cvv2" value="">
+                    <input name="transactionAmount" value="">
+                    <input name="currencyCode" value="">
+                    <input name="installmentCount" value="">
+                    <input name="acquirerMerchantId" value="">
+                    <input name="userId" value="">
+                    <input name="okUrl" value="">
+                    <input name="failUrl" value="">
+                    <input name="hash" value="">
+                    <input name="rnd" value="">
+                    <input name="timeStamp" value="">
+                </form>
+
+                <!-- Özet -->
+            </div> <div class="right-panel">
+                <h3><i class="fas fa-clipboard"></i> İşlem Özeti</h3>
+                <div class="summary-item">
+                    <span>Üye İşyeri Numarası</span>
+                    <span id="summaryMerchantNumberDisplay"></span>
+                </div>
+                <div class="summary-item">
+                    <span>İşlem Tipi</span>
+                    <span id="summaryTransactionTypeDisplay"></span>
+                </div>
+                <div class="summary-item">
+                    <span>Tutar</span>
+                    <span id="summaryAmountDisplay"></span>
+                </div>
+                <div class="summary-item">
+                    <span>Para Birimi</span>
+                    <span id="summaryCurrencyDisplay"></span>
+                </div>
+                <div class="summary-item">
+                    <span></span>
+                    <span id="summarySecureDisplay"></span>
+                </div>
+                <button class="btn primary-btn" id="createOrderBtn">Öde</button>
+            </div>
+        </div>
+    </div> 
+
+    <script src="payment.html.js"></script>
+</body>
+</html>

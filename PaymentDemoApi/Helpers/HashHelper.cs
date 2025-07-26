@@ -11,6 +11,7 @@ public static class HashHelper
         var hashBytes = hmac.ComputeHash(Encoding.UTF8.GetBytes(input));
         return Convert.ToBase64String(hashBytes);
     }
+
     public static string GenerateRandomHex(int length)
     {
         const string chars = "ABCDEF0123456789";
@@ -50,7 +51,8 @@ public static class HashHelper
                 Safe(request.ExpireDate),
                 Safe(request.Installment),
                 Safe(request.SecurityType),
-                Safe(request.RewardAmount)
+                Safe(request.RewardAmount),
+                Safe(request.CardBrand)
             ),
 
             "VOID" => string.Concat(
@@ -104,14 +106,12 @@ public static class HashHelper
         };
     }
 
-
     public class HashInputResult
     {
         public string HashInput { get; set; }
         public string Timestamp { get; set; }
         public string RandomHex { get; set; }
     }
-
 
     public static HashInputResult BuildHashInputSecure(SecureRequest request)
     {
@@ -139,5 +139,29 @@ public static class HashHelper
                 hashInputResult.RandomHex);
 
         return hashInputResult;
+    }
+
+    public static string BuildHashInputAuth3DS(Auth3DSModel request)
+    {
+        string Safe(string s) => s ?? "";
+
+        return string.Concat(
+                Safe(request.UserId),
+                Safe(request.Password),
+                Safe(request.MerchantNumber),
+                Safe(request.ShopCode),
+                Safe(request.TransactionType),
+                Safe(request.OrderId),
+                Safe(request.TransactionAmount),
+                Safe(request.CurrencyCode),
+                Safe(request.InstallmentCount),
+                Safe(request.ThreeDModel),
+                Safe(request.RewardAmount),
+                Safe(request.PFMerchantNumber),
+                Safe(request.CardBrand),
+                Safe(request.Av),
+                Safe(request.ECI),
+                Safe(request.TransactionId)
+                );
     }
 }
