@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>HTML Test</title>
+    <link rel="icon" type="image/x-icon" href="assets/images/logo_big.png">
+    <style>
+        body {
+            background-image: url('assets/images/service-bg.jpg'); /* veya tam URL: 'https://example.com/bg.jpg' */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-attachment: fixed;
+        }
+
+
+        .header {
+            background-color: rgba(51, 51, 51, 0.85); /* Transparan üst şerit */
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .header img {
+                height: 50px; /* Gerekirse ayarla */
+            }
+
+        .header-title {
+            font-weight: bold;
+            font-size: 24px;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 100px;
+        }
+
+            .button-container form {
+                display: inline-block;
+                margin: 10px;
+            }
+
+            .button-container button {
+                padding: 15px 30px;
+                background-color: #333;
+                color: white;
+                border: none;
+                cursor: pointer;
+                font-size: 16px;
+            }
+
+                .button-container button:hover {
+                    background-color: #555;
+                }
+    </style>
+</head>
+<body>
+
+    <!-- ÜST BANNER -->
+    <div class="header">
+        <img src="assets/images/logo_big.png" alt="Logo">
+        <div class="header-title">SANAL POS TEST</div>
+    </div>
+
+    <!-- CHECKBOXLAR -->
+    <div style="margin: 40px;">
+        <h3>İşlem Türleri:</h3>
+        <div id="checkboxGroup" style="display: flex; flex-wrap: wrap; gap: 20px;">
+            <label><input type="checkbox" name="op" value="PAY HOSTING"> PAY HOSTING</label>
+            <label><input type="checkbox" name="op" value="3D SATIS"> 3D SATIŞ</label>
+            <label><input type="checkbox" name="op" value="3D ONPROV"> 3D ÖNPROVİZYON</label>
+            <label><input type="checkbox" name="op" value="3D PAY SATIS"> 3D PAY SATIŞ</label>
+            <label><input type="checkbox" name="op" value="3D PAY ONPROV"> 3D PAY ÖNPROVİZYON</label>
+            <label><input type="checkbox" name="op" value="3D PAY HOSTING SATIS"> 3D PAY HOSTING SATIŞ</label>
+            <label><input type="checkbox" name="op" value="3D PAY HOSTING ONPROV"> 3D PAY HOSTING ÖNPROVİZYON</label>
+        </div>
+    </div>
+
+    <!-- HTML FORM -->
+    <div style="margin: 40px;">
+        <h3>HTML POST Formu:</h3>
+        <textarea id="htmlInput" rows="20" cols="100" placeholder="HTML Form..."></textarea>
+    </div>
+
+    <!-- KEY GİRİŞİ -->
+    <div style="margin: 40px;">
+        <h3>Non-Secure Key:</h3>
+        <input type="text" id="keyInput" style="width: 600px;" value="xxxxxxxxxxxxxxxxxxxxx">
+    </div>
+
+    <!-- BUTONLAR -->
+    <div style="margin: 40px;">
+        <button onclick="generateRnd()" id="rndBtn" style="padding: 10px 20px; background-color: #333; color: white; border: none;">Randon Number Oluştur</button>
+        <button onclick="calculateHTMLHash()" id="hashBtn" style="padding: 10px 20px; background-color: #999; color: white; border: none;" disabled>Hash Hesapla</button>
+    </div>
+
+    <!-- RANDOM NUMBER ALANI -->
+    <div style="margin: 40px;">
+        <h3>Random Number:</h3>
+        <textarea id="rndOutput" rows="2" cols="100" readonly></textarea><br>
+        <button onclick="clearRnd()" style="margin-top: 5px; background-color: #555; color: white; padding: 5px 10px;">Temizle</button>
+    </div>
+
+    <!-- HASH ALANI -->
+    <div style="margin: 40px;">
+        <h3>Hesaplanan Hash:</h3>
+        <textarea id="hashResult" rows="2" cols="100" readonly></textarea><br>
+        <button onclick="clearHash()" style="margin-top: 5px; background-color: #555; color: white; padding: 5px 10px;">Temizle</button>
+    </div>
+
+    <!-- SCRIPT -->
+    <script>
+        const checkboxGroup = document.querySelectorAll('#checkboxGroup input[type="checkbox"]');
+        const htmlInput = document.getElementById("htmlInput");
+        const hashBtn = document.getElementById("hashBtn");
+        const rndOutput = document.getElementById("rndOutput");
+        const hashOutput = document.getElementById("hashResult");
+        let currentRnd = "";
+
+        const htmlFormExample1 = `<form action="https://localhost:7186/TdsMerchantGateway/tdsmerchantgateway/api/threeDS" method="post">
+              <input name="StoreType" value="3D">
+              <input name="TransactionType" value="Salepos">
+              <input name="OrderId" value="order-1234">
+              <input name="Pan" value="5430810017515470">
+              <input name="CardHolderName" value="test test">
+              <input name="ExpireDate" value="2509">
+              <input name="Cvv2" value="182">
+              <input name="TransactionAmount" value="10000">
+              <input name="CurrencyCode" value="949">
+              <input name="InstallmentCount" value="0">
+              <input name="AcquirerMerchantId" value="003401000000777">
+              <input name="UserId" value="003401000000777_ApiUser">
+              <input name="OkUrl" value="https://merchant.successURL/SuccessResult">
+              <input name="FailUrl" value="https://merchant.failURL/FailResult">
+              <input name="Hash" value="">
+              <input name="Rnd" value="">
+              <input name="TimeStamp" value="">
+
+</form>`;
+
+
+        const htmlFormExample2 = `<form action="https://localhost:7186/TdsMerchantGateway/tdsmerchantgateway/api/threeDS" method="post">
+              <input name="StoreType" value="3D">
+              <input name="TransactionType" value="Preauth">
+              <input name="OrderId" value="order-1234">
+              <input name="Pan" value="5430810017515470">
+              <input name="CardHolderName" value="test test">
+              <input name="ExpireDate" value="2509">
+              <input name="Cvv2" value="182">
+              <input name="TransactionAmount" value="10000">
+              <input name="CurrencyCode" value="949">
+              <input name="InstallmentCount" value="0">
+              <input name="AcquirerMerchantId" value="003401000000777">
+              <input name="UserId" value="003401000000777_ApiUser">
+              <input name="OkUrl" value="https://merchant.successURL/SuccessResult">
+              <input name="FailUrl" value="https://merchant.failURL/FailResult">
+              <input name="Hash" value="">
+              <input name="Rnd" value="">
+              <input name="TimeStamp" value="">
+
+</form>`;
+
+
+        const htmlFormExample3 = `<form action="https://localhost:7186/TdsMerchantGateway/tdsmerchantgateway/api/threeDS" method="post">
+              <input name="StoreType" value="3D_PAY">
+              <input name="TransactionType" value="Salepos">
+              <input name="OrderId" value="order-1234">
+              <input name="Pan" value="5430810017515470">
+              <input name="CardHolderName" value="test test">
+              <input name="ExpireDate" value="2509">
+              <input name="Cvv2" value="182">
+              <input name="TransactionAmount" value="10000">
+              <input name="CurrencyCode" value="949">
+              <input name="InstallmentCount" value="0">
+              <input name="AcquirerMerchantId" value="003401000000777">
+              <input name="UserId" value="003401000000777_ApiUser">
+              <input name="OkUrl" value="https://merchant.successURL/SuccessResult">
+              <input name="FailUrl" value="https://merchant.failURL/FailResult">
+              <input name="Hash" value="">
+              <input name="Rnd" value="">
+              <input name="TimeStamp" value="">
+
+</form>`;
+
+
+        const htmlFormExample4 = `<form action="https://localhost:7186/TdsMerchantGateway/tdsmerchantgateway/api/threeDS" method="post">
+              <input name="StoreType" value="3D_PAY">
+              <input name="TransactionType" value="Preauth">
+              <input name="OrderId" value="order-1234">
+              <input name="Pan" value="5430810017515470">
+              <input name="CardHolderName" value="test test">
+              <input name="ExpireDate" value="2509">
+              <input name="Cvv2" value="182">
+              <input name="TransactionAmount" value="10000">
+              <input name="CurrencyCode" value="949">
+              <input name="InstallmentCount" value="0">
+              <input name="AcquirerMerchantId" value="003401000000777">
+              <input name="UserId" value="003401000000777_ApiUser">
+              <input name="OkUrl" value="https://merchant.successURL/SuccessResult">
+              <input name="FailUrl" value="https://merchant.failURL/FailResult">
+              <input name="Hash" value="">
+              <input name="Rnd" value="">
+              <input name="TimeStamp" value="">
+
+</form>`;
+
+
+        const htmlFormExample5 = `<form action="https://localhost:7186/TdsMerchantGateway/tdsmerchantgateway/api/threeDS" method="post">
+              <input name="StoreType" value="3D_PAY_HOSTING">
+              <input name="TransactionType" value="Salepos">
+              <input name="OrderId" value="order-1234">
+              <input name="Pan" value="5430810017515470">
+              <input name="CardHolderName" value="test test">
+              <input name="ExpireDate" value="2509">
+              <input name="Cvv2" value="182">
+              <input name="TransactionAmount" value="10000">
+              <input name="CurrencyCode" value="949">
+              <input name="InstallmentCount" value="0">
+              <input name="AcquirerMerchantId" value="003401000000777">
+              <input name="UserId" value="003401000000777_ApiUser">
+              <input name="OkUrl" value="https://merchant.successURL/SuccessResult">
+              <input name="FailUrl" value="https://merchant.failURL/FailResult">
+              <input name="Hash" value="">
+              <input name="Rnd" value="">
+              <input name="TimeStamp" value="">
+
+</form>`;
+
+
+        const htmlFormExample6 = `<form action="https://localhost:7186/TdsMerchantGateway/tdsmerchantgateway/api/threeDS" method="post">
+              <input name="StoreType" value="3D_PAY_HOSTING">
+              <input name="TransactionType" value="Preauth">
+              <input name="OrderId" value="order-1234">
+              <input name="Pan" value="5430810017515470">
+              <input name="CardHolderName" value="test test">
+              <input name="ExpireDate" value="2509">
+              <input name="Cvv2" value="182">
+              <input name="TransactionAmount" value="10000">
+              <input name="CurrencyCode" value="949">
+              <input name="InstallmentCount" value="0">
+              <input name="AcquirerMerchantId" value="003401000000777">
+              <input name="UserId" value="003401000000777_ApiUser">
+              <input name="OkUrl" value="https://merchant.successURL/SuccessResult">
+              <input name="FailUrl" value="https://merchant.failURL/FailResult">
+              <input name="Hash" value="">
+              <input name="Rnd" value="">
+              <input name="TimeStamp" value="">
+
+</form>`;
+
+        checkboxGroup.forEach(cb => {
+            cb.addEventListener("change", function () {
+                if (this.checked) {
+                    checkboxGroup.forEach(other => {
+                        if (other !== this) other.checked = false;
+                    });
+
+                    // 3D SATIŞ seçildiyse form örneğini göster
+                    if (this.value === "3D SATIS") {
+                        htmlInput.value = htmlFormExample1;
+                    }
+                    else if (this.value === "3D ONPROV") {
+                        htmlInput.value = htmlFormExample2;
+                    }
+                    else if (this.value === "3D PAY SATIS") {
+                        htmlInput.value = htmlFormExample3;
+                    }
+                    else if (this.value === "3D PAY ONPROV") {
+                        htmlInput.value = htmlFormExample4;
+                    }
+                    else if (this.value === "3D PAY HOSTING SATIS") {
+                        htmlInput.value = htmlFormExample5;
+                    }
+                    else if (this.value === "3D PAY HOSTING ONPROV") {
+                        htmlInput.value = htmlFormExample6;
+                    }
+                    else {
+                        htmlInput.value = "";
+                    }
+
+                    // Yeni seçim yapıldığında hash işlemini sıfırla
+                    hashBtn.disabled = true;
+                    hashBtn.style.backgroundColor = "#999";
+                    rndOutput.value = "";
+                    hashOutput.value = "";
+                    currentRnd = "";
+                }
+            });
+        });
+
+        function generateRnd() {
+            const hexChars = "0123456789abcdef";
+            let rnd = "";
+            for (let i = 0; i < 128; i++) {
+                rnd += hexChars[Math.floor(Math.random() * hexChars.length)];
+            }
+            currentRnd = rnd;
+            rndOutput.value = rnd;
+
+            // hash butonunu aktif et
+            hashBtn.disabled = false;
+            hashBtn.style.backgroundColor = "#333";
+        }
+
+        async function calculateHTMLHash() {
+            const htmlText = htmlInput.value;
+            const key = document.getElementById("keyInput").value.trim();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(htmlText, "text/html");
+            const inputs = doc.querySelectorAll("input");
+
+            const getValue = (name) => {
+                const el = Array.from(inputs).find(i => i.getAttribute("name") === name);
+                return el ? el.getAttribute("value") || "" : "";
+            };
+
+            const fields = [
+                "UserId", "Password", "AcquirerMerchantId", "ShopCode", "TransactionType",
+                "OrderId", "TransactionAmount", "CurrencyCode", "InstallmentCount",
+                "StoreType", "RewardAmount", "PFMerchantNumber", "CardBrand",
+                "Av", "ECI", "TransactionId"
+            ];
+
+            const concat = fields.map(getValue).join("");
+
+            try {
+                const encoder = new TextEncoder();
+                const keyData = encoder.encode(key);
+                const inputData = encoder.encode(concat);
+
+                const cryptoKey = await crypto.subtle.importKey(
+                    "raw", keyData, { name: "HMAC", hash: "SHA-512" }, false, ["sign"]
+                );
+
+                const signature = await crypto.subtle.sign("HMAC", cryptoKey, inputData);
+                const hashArray = Array.from(new Uint8Array(signature));
+                const base64Hash = btoa(String.fromCharCode(...hashArray));
+
+                hashOutput.value = base64Hash;
+            } catch (err) {
+                alert("Hash hesaplama hatası: " + err.message);
+            }
+        }
+
+        function clearRnd() {
+            rndOutput.value = "";
+            currentRnd = "";
+            hashBtn.disabled = true;
+            hashBtn.style.backgroundColor = "#999";
+        }
+
+        function clearHash() {
+            hashOutput.value = "";
+        }
+    </script>
+
+</body>
+</html>

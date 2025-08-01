@@ -79,7 +79,7 @@ namespace VposApi.Services
 
                 var responseContent = await response.Content.ReadAsStringAsync();
 
-                var gatewayResponse = JsonSerializer.Deserialize<PaymentResponse>(responseContent, new JsonSerializerOptions
+                var gatewayResponse = JsonSerializer.Deserialize<GatewayResponse>(responseContent, new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true
                 });
@@ -97,46 +97,61 @@ namespace VposApi.Services
                 string respJson = JsonSerializer.Serialize(gatewayResponse, new JsonSerializerOptions { WriteIndented = true });
                 Console.WriteLine(respJson);
 
-                if (int.TryParse(gatewayResponse.ResponseMessage, out int msgNum))
+                if (int.TryParse(gatewayResponse.Result.Message, out int msgNum))
                 {
-                    if (gatewayResponse.ResponseMessage.Length == 6)
-                        gatewayResponse.ResponseMessage += "-" + InternalResponseMapping.GetInternalResponseMappingList(gatewayResponse.ResponseMessage);
-                    else if (gatewayResponse.ResponseMessage.Length == 4)
-                        gatewayResponse.ResponseMessage += "-" + ResponseCodeDef.GetResponseCodeDefList(gatewayResponse.ResponseMessage);
+                    if (gatewayResponse.Result.Message.Length == 6)
+                        gatewayResponse.Result.Message += "-" + InternalResponseMapping.GetInternalResponseMappingList(gatewayResponse.Result.Message);
+                    else if (gatewayResponse.Result.Message.Length == 4)
+                        gatewayResponse.Result.Message += "-" + ResponseCodeDef.GetResponseCodeDefList(gatewayResponse.Result.Message);
                 }
                 else
                 {
-                    gatewayResponse.ResponseMessage += "-" + ResponseReasonCodeDef.GetResponseReasonCodeList(gatewayResponse.ResponseMessage);
+                    gatewayResponse.Result.Message += "-" + ResponseReasonCodeDef.GetResponseReasonCodeList(gatewayResponse.Result.Message);
                 }
 
-                if (int.TryParse(gatewayResponse.ResponseCode, out int codeNum))
+                if (int.TryParse(gatewayResponse.Result.Code, out int codeNum))
                 {
-                    if (gatewayResponse.ResponseCode.Length == 6)
-                        gatewayResponse.ResponseCode += "-" + InternalResponseMapping.GetInternalResponseMappingList(gatewayResponse.ResponseCode);
-                    else if (gatewayResponse.ResponseCode.Length == 4)
-                        gatewayResponse.ResponseCode += "-" + ResponseCodeDef.GetResponseCodeDefList(gatewayResponse.ResponseCode);
+                    if (gatewayResponse.Result.Code.Length == 6)
+                        gatewayResponse.Result.Code += "-" + InternalResponseMapping.GetInternalResponseMappingList(gatewayResponse.Result.Code);
+                    else if (gatewayResponse.Result.Code.Length == 4)
+                        gatewayResponse.Result.Code += "-" + ResponseCodeDef.GetResponseCodeDefList(gatewayResponse.Result.Code);
                 }
                 else
                 {
-                    gatewayResponse.ResponseCode += "-" + ResponseReasonCodeDef.GetResponseReasonCodeList(gatewayResponse.ResponseCode);
+                    gatewayResponse.Result.Code += "-" + ResponseReasonCodeDef.GetResponseReasonCodeList(gatewayResponse.Result.Code);
                 }
 
-                if (int.TryParse(gatewayResponse.ResponseReasonCode, out int reasonCodeNum))
+                if (int.TryParse(gatewayResponse.Result.ReasonCode, out int reasonCodeNum))
                 {
-                    if (gatewayResponse.ResponseReasonCode.Length == 6)
-                        gatewayResponse.ResponseReasonCode += "-" + InternalResponseMapping.GetInternalResponseMappingList(gatewayResponse.ResponseReasonCode);
-                    else if (gatewayResponse.ResponseReasonCode.Length == 4)
-                        gatewayResponse.ResponseReasonCode += "-" + ResponseCodeDef.GetResponseCodeDefList(gatewayResponse.ResponseReasonCode);
+                    if (gatewayResponse.Result.ReasonCode.Length == 6)
+                        gatewayResponse.Result.ReasonCode += "-" + InternalResponseMapping.GetInternalResponseMappingList(gatewayResponse.Result.ReasonCode);
+                    else if (gatewayResponse.Result.ReasonCode.Length == 4)
+                        gatewayResponse.Result.ReasonCode += "-" + ResponseCodeDef.GetResponseCodeDefList(gatewayResponse.Result.ReasonCode);
                 }
                 else
                 {
-                    if (gatewayResponse.ResponseReasonCode is not null)
+                    if (gatewayResponse.Result.ReasonCode is not null)
                     {
-                        gatewayResponse.ResponseReasonCode += "-" + ResponseReasonCodeDef.GetResponseReasonCodeList(gatewayResponse.ResponseReasonCode);
+                        gatewayResponse.Result.ReasonCode += "-" + ResponseReasonCodeDef.GetResponseReasonCodeList(gatewayResponse.Result.ReasonCode);
                     }
                 }
 
-                return gatewayResponse;
+                PaymentResponse paymentResponse = new()
+                {
+                    AuthorizationNumber = gatewayResponse.AuthenticationResult.AuthorizationNumber,
+                    RRN = gatewayResponse.AuthenticationResult.RRN,
+                    Stan = gatewayResponse.AuthenticationResult.Stan,
+                    TransactionId = gatewayResponse.TransactionResponse.TransactionId,
+                    TransactionDate = gatewayResponse.TransactionResponse.TransactionDate,
+                    OrderId = gatewayResponse.TransactionResponse.OrderId,
+                    ResponseCode = gatewayResponse.Result.Code,
+                    ResponseMessage = gatewayResponse.Result.Message,
+                    ResponseReasonCode = gatewayResponse.Result.ReasonCode,
+                    Success = gatewayResponse.Result.Code == "000000-SUCCESSFUL" ? true : false,
+                    IsError = gatewayResponse.Result.Code == "000000-SUCCESSFUL" ? false : true,
+                };
+
+                return paymentResponse;
             }
             catch (Exception ex)
             {

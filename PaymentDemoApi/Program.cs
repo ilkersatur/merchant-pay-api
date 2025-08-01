@@ -1,4 +1,4 @@
-
+﻿
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using VposApi.Models;
@@ -21,7 +21,7 @@ namespace VposApi
             builder.Services.AddSwaggerGen();
 
             builder.Services.Configure<VposSettings>(builder.Configuration.GetSection("VposSettings"));
-            builder.Services.AddHttpClient(); // HttpClient injection i�in
+            builder.Services.AddHttpClient(); // HttpClient injection için
 
 
             builder.Services.AddCors(options =>
@@ -49,10 +49,24 @@ namespace VposApi
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+            if (app.Environment.IsProduction())
             {
-                app.UseSwagger();
+                app.UsePathBase("/Vpos/V1/VposPaymentDemoApi");
+            }
+
+            app.UseSwagger();
+
+            if (app.Environment.IsProduction())
+            {
+                app.UseSwaggerUI(c =>
+                {
+                    // ❗ Relative path olmalı, başında "/" yok!
+                    c.SwaggerEndpoint("swagger.json", "Payment Demo Api V1");
+                    c.RoutePrefix = "swagger";
+                });
+            }
+            else
+            {
                 app.UseSwaggerUI();
             }
 
@@ -63,6 +77,7 @@ namespace VposApi
             app.UseCors("AllowAll");
 
             app.UseAuthorization();
+
 
             app.MapControllers();
 

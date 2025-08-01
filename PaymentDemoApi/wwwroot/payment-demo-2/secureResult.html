@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> VPOS TEST ÖDEME</title>
+    <link rel="icon" type="image/x-icon" href="assets/images/logo_big.png">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="shortcut icon" href="#">
@@ -53,30 +54,7 @@
 
                     <h3><i class="fas fa-check"></i>Secure İşlem Sonucu</h3>
 
-                    <div class="summary-item">
-                        <span>3DS Sunucu İşlem ID</span>
-                        <span id="threeDSServerTransID"></span>
-                    </div>
-                    <div class="summary-item">
-                        <span>DS Trans ID</span>
-                        <span id="dsTransID"></span>
-                    </div>
-                    <div class="summary-item">
-                        <span>ACS Trans ID</span>
-                        <span id="acsTransID"></span>
-                    </div>
-                    <div class="summary-item">
-                        <span>3DS İşlem Durumu</span>
-                        <span id="threeDSTransStatus"></span>
-                    </div>
-                    <div class="summary-item">
-                        <span>3DS İşlem Durum Nedeni</span>
-                        <span id="threeDSTransStatusReason"></span>
-                    </div>
-                    <div class="summary-item">
-                        <span>Kimlik Doğrulama Protokolü</span>
-                        <span id="authenticationProtocol"></span>
-                    </div>
+                    <!-- HTML'de right-panel içinde -->
                     <div class="summary-item">
                         <span>AV</span>
                         <span id="av"></span>
@@ -87,17 +65,39 @@
                     </div>
                     <div class="summary-item">
                         <span>İşlem ID</span>
-                        <span id="TransactionId"></span>
+                        <span id="transactionId"></span>
                     </div>
                     <div class="summary-item">
                         <span>Sipariş ID</span>
-                        <span id="OrderId"></span>
+                        <span id="orderId"></span>
                     </div>
+                    <div class="summary-item">
+                        <span>İşlem Tarihi</span>
+                        <span id="transactionDate"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Durum Kodu</span>
+                        <span id="code"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Durum Açıklaması</span>
+                        <span id="reasonCode"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Mesaj</span>
+                        <span id="message"></span>
+                    </div>
+
                     <button class="btn primary-btn" id="Approve">Onayla</button>
                 </div>
             </div>
         </div>
     </div>
+
+    <footer class="footer">
+        <span style="color: #3a859c;"></span> <span style="color: #000;">© 2025</span>
+    </footer>
+
     <script src="secureResult.html.js"></script>
 </body>
 </html>

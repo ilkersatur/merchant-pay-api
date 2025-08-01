@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\payment-demo-2\payment - Copy.html.js" />
     <Content Remove="wwwroot\payment-demo-2\result - Copy.html.js" />
     <Content Remove="wwwroot\payment-demo-2\secureResult.html" />
   </ItemGroup>
@@ -20,7 +21,6 @@
 
   <ItemGroup>
     <None Include="wwwroot\payment-demo-2\assets\css\animated.css" />
-    <None Include="wwwroot\payment-demo-2\assets\css\card.css" />
     <None Include="wwwroot\payment-demo-2\assets\css\fontawesome.css" />
     <None Include="wwwroot\payment-demo-2\assets\css\owl.css" />
     <None Include="wwwroot\payment-demo-2\assets\css\templatemo-chain-app-dev.css" />
@@ -46,8 +46,6 @@
     <None Include="wwwroot\payment-demo-2\assets\images\logo.png" />
     <None Include="wwwroot\payment-demo-2\assets\images\logo_big.png" />
     <None Include="wwwroot\payment-demo-2\assets\images\mastercard.png" />
-    <None Include="wwwroot\payment-demo-2\assets\images\-logo-beyazustune.png" />
-    <None Include="wwwroot\payment-demo-2\assets\images\pay_logo.png" />
     <None Include="wwwroot\payment-demo-2\assets\images\regular-table-bottom.png" />
     <None Include="wwwroot\payment-demo-2\assets\images\regular-table-top.png" />
     <None Include="wwwroot\payment-demo-2\assets\images\service-bg.jpg" />

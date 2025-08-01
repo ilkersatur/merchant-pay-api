@@ -105,7 +105,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     else if (secure === 'Secure') {
                         localStorage.setItem('secureOrderFormData', JSON.stringify(orderData));
-                        window.location.href = 'payment.html';
+                        if (orderData.storeType === "3D PAY HOSTING") {
+                            window.location.href = 'hosting.html';
+                        } else {
+                            window.location.href = 'payment.html';
+                        }
                     }
 
                 } else if (orderData.transactionType === "İPTAL" || orderData.transactionType === "İADE" || orderData.transactionType === "MOTO INSURANCE" || orderData.transactionType === "ÖN PROVIZYON KAPAMA") {
@@ -473,3 +477,86 @@ function updateAmountSummary(inputValue) {
         summaryAmount.textContent = parts[0] + ',' + parts[1];
     }
 }
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const merchantNumberInput = document.getElementById("merchantNumber");
+    const shopCodeInput = document.getElementById("shopCode");
+    const userIdInput = document.getElementById("userId");
+    const passwordInput = document.getElementById("password");
+    const amountInput = document.getElementById("amount");
+    const currencySelect = document.getElementById("currency");
+
+    // Özet alanları
+    const summaryMerchantNumberDisplay = document.getElementById("summaryMerchantNumberDisplay");
+    const summaryAmountDisplay = document.getElementById("summaryAmountDisplay");
+    const summaryCurrencyDisplay = document.getElementById("summaryCurrencyDisplay");
+    const summarySecureDisplay = document.getElementById("summarySecureDisplay");
+
+    // Menü seçimleri
+    const menuLinks = document.querySelectorAll(".dropdown-content a");
+
+    menuLinks.forEach(link => {
+        link.addEventListener("click", function (e) {
+            e.preventDefault();
+            const selectedText = this.textContent.trim().toUpperCase();
+
+            if (selectedText === "3D" || selectedText === "3D PAY" || selectedText === "3D PAY HOSTING") {
+                handleSecureSelection(selectedText);
+                summarySecureDisplay.textContent = `Secure (${selectedText})`;
+            } else {
+                handleNonSecureSelection();
+                summarySecureDisplay.textContent = "NonSecure";
+            }
+
+            updateSummary();
+        });
+    });
+
+    function handleNonSecureSelection() {
+        merchantNumberInput.value = "003401000000777";
+        shopCodeInput.value = "shopCode005";
+        userIdInput.value = "003401000000777_ApiUser";
+        passwordInput.value = "1234";
+        amountInput.value = "100,00";
+    }
+
+    function handleSecureSelection(type) {
+        let config = {
+            "3D": {
+                merchantNumber: "003401000000778",
+                shopCode: "shopCode006",
+                userId: "003401000000778_ApiUser",
+            },
+            "3D PAY": {
+                merchantNumber: "003401000000779",
+                shopCode: "shopCode007",
+                userId: "003401000000779_ApiUser",
+            },
+            "3D PAY HOSTING": {
+                merchantNumber: "003401000000780",
+                shopCode: "shopCode008",
+                userId: "003401000000780_ApiUser",
+            }
+        };
+
+        const selected = config[type];
+        if (selected) {
+            merchantNumberInput.value = selected.merchantNumber;
+            shopCodeInput.value = selected.shopCode;
+            userIdInput.value = selected.userId;
+            passwordInput.value = "1234";
+            amountInput.value = "100,00";
+        }
+    }
+
+    function updateSummary() {
+        summaryMerchantNumberDisplay.textContent = merchantNumberInput.value;
+        summaryAmountDisplay.textContent = amountInput.value;
+        summaryCurrencyDisplay.textContent = currencySelect.value;
+    }
+
+    // Tutar veya para birimi manuel değişirse özet de güncellensin
+    amountInput.addEventListener("input", updateSummary);
+    currencySelect.addEventListener("change", updateSummary);
+});

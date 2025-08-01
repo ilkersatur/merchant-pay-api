@@ -1,7 +1,9 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
+using System.Reflection;
 using VposApi.Config;
 using VposApi.Models;
 using VposApi.Services;
@@ -37,14 +39,42 @@ public class SecureController : ControllerBase
     [HttpPost("SuccessResult")]
     public async Task<IActionResult> SuccessResult([FromForm] SecureSuccessModel secureModel)
     {
-        var queryParams = $"?data={secureModel.ResultThreeDSResponse}";
+        var queryParams = "";
+
+        if (!string.IsNullOrEmpty(secureModel.ResultThreeDSResponse))
+        {
+            queryParams = $"?data={secureModel.ResultThreeDSResponse}";
+        }
+        else if (!string.IsNullOrEmpty(secureModel.ThreeDSResponse))
+        {
+            queryParams = $"?data={secureModel.ThreeDSResponse}";
+        }
+        else if (!string.IsNullOrEmpty(secureModel.ResultGoResponse))
+        {
+            queryParams = $"?data={secureModel.ResultGoResponse}";
+        }
+
         return Redirect($"{_settings.OkPage}{queryParams}");
     }
 
     [HttpPost("TDPaySuccessResult")]
     public async Task<IActionResult> TDPaySuccessResult([FromForm] SecureSuccessModel secureModel)
     {
-        var queryParams = $"?data={secureModel.ResultThreeDSResponse}";
+
+        var queryParams = "";
+
+        if (!string.IsNullOrEmpty(secureModel.ResultThreeDSResponse))
+        {
+            queryParams = $"?data={secureModel.ResultThreeDSResponse}";
+        }
+        else if (!string.IsNullOrEmpty(secureModel.ThreeDSResponse))
+        {
+            queryParams = $"?data={secureModel.ThreeDSResponse}";
+        }
+        else if (!string.IsNullOrEmpty(secureModel.ResultGoResponse))
+        {
+            queryParams = $"?data={secureModel.ResultGoResponse}";
+        }
         return Redirect($"{_settings.TDPayOkPage}{queryParams}");
     }
 

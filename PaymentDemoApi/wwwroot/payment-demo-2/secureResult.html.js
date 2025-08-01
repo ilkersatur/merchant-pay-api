@@ -1,44 +1,36 @@
+document.addEventListener("DOMContentLoaded", function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const responseStr = urlParams.get("data");
 
-
-window.addEventListener('DOMContentLoaded', () => {
-
-    function getQueryParam(param) {
-        const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get(param);
+    if (!responseStr) {
+        alert("Herhangi bir sonuç verisi bulunamadı.");
+        return;
     }
 
-    const jsonDataStr = getQueryParam('data');
-
-    if (jsonDataStr) {
-        try {
-            const data = JSON.parse(jsonDataStr);
-
-            function setText(id, text) {
-                const el = document.getElementById(id);
-                if (el) el.textContent = text ?? "";
-            }
-
-            setText("threeDSServerTransID", data.threeDSServerTransID);
-            setText("dsTransID", data.dsTransID);
-            setText("acsTransID", data.acsTransID);
-            setText("threeDSTransStatus", data.threeDSTransStatus === "Y" ? "Y-Başarılı" : data.threeDSTransStatus);
-            setText("threeDSTransStatusReason", data.threeDSTransStatusReason);
-            setText("authenticationProtocol", data.authenticationProtocol);
-
-            if (data.authenticationResult) {
-                setText("av", data.authenticationResult.av);
-                setText("eci", data.authenticationResult.eci);
-            }
-
-            setText("TransactionId", data.TransactionId);
-            setText("OrderId", data.OrderId);
-
-        } catch (e) {
-            console.error("JSON parse hatası:", e);
-        }
-    } else {
-        console.warn("URL query string içinde 'data' parametresi yok.");
+    let responseJson;
+    try {
+        responseJson = JSON.parse(responseStr);
+    } catch (e) {
+        alert("JSON verisi çözümlenemedi.");
+        return;
     }
+
+    const authResult = responseJson.ThreeDSAuthenticationResult || {};
+    const transResponse = responseJson.TransactionResponse || {};
+    const result = responseJson.Result || {};
+
+    document.getElementById("av").innerText = authResult.Av || "-";
+    document.getElementById("eci").innerText = authResult.Eci || "-";
+
+    document.getElementById("transactionId").innerText = transResponse.TransactionId || "-";
+    document.getElementById("orderId").innerText = transResponse.OrderId || "-";
+    document.getElementById("transactionDate").innerText = transResponse.TransactionDate
+        ? new Date(transResponse.TransactionDate).toLocaleString("tr-TR")
+        : "-";
+
+    document.getElementById("code").innerText = result.Code || "-";
+    document.getElementById("reasonCode").innerText = result.ReasonCode || "-";
+    document.getElementById("message").innerText = result.Message || "-";
 });
 
 
@@ -72,16 +64,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Değerleri HTML'den al
         const requestData = {
-            ThreeDsDirectoryServerTransactionId: document.getElementById("threeDSServerTransID")?.textContent || "",
-            ThreeDsProgramProtocol: document.getElementById("authenticationProtocol")?.textContent || "",
-            dsTransID: document.getElementById("dsTransID")?.textContent || "",
-            acsTransID: document.getElementById("acsTransID")?.textContent || "",
-            threeDSTransStatus: document.getElementById("threeDSTransStatus")?.textContent || "",
-            threeDSTransStatusReason: document.getElementById("threeDSTransStatusReason")?.textContent || "",
+            //ThreeDsDirectoryServerTransactionId: document.getElementById("threeDSServerTransID")?.textContent || "",
+            //ThreeDsProgramProtocol: document.getElementById("authenticationProtocol")?.textContent || "",
+            //dsTransID: document.getElementById("dsTransID")?.textContent || "",
+            //acsTransID: document.getElementById("acsTransID")?.textContent || "",
+            //threeDSTransStatus: document.getElementById("threeDSTransStatus")?.textContent || "",
+            //threeDSTransStatusReason: document.getElementById("threeDSTransStatusReason")?.textContent || "",
             av: document.getElementById("av")?.textContent || "",
             eci: document.getElementById("eci")?.textContent || "",
-            transactionId: document.getElementById("TransactionId")?.textContent || "",
-            orderId: document.getElementById("OrderId")?.textContent || "",
+            transactionId: document.getElementById("transactionId")?.textContent || "",
+            orderId: document.getElementById("orderId")?.textContent || "",
             userId: secureOrder.userId,
             password: secureOrder.password,
             merchantNumber: secureOrder.merchantNumber,

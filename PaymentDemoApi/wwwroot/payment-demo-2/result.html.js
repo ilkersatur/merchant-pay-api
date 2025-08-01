@@ -82,16 +82,9 @@ window.addEventListener('DOMContentLoaded', () => {
         }
 
         if (secureRequest) {
-            setText("threeDSServerTransID", secureRequest.ThreeDsDirectoryServerTransactionId);
-            setText("dsTransID", secureRequest.dsTransID);
-            setText("acsTransID", secureRequest.acsTransID);
-            setText("threeDSTransStatus", secureRequest.threeDSTransStatus === "Y" ? "Y-Başarılı" : secureRequest.threeDSTransStatus);
-            setText("threeDSTransStatusReason", secureRequest.threeDSTransStatusReason);
-            setText("authenticationProtocol", secureRequest.ThreeDsProgramProtocol);
-
-
             setText("av", secureRequest.av);
             setText("eci", secureRequest.eci);
+            setText("threeDModel", secureRequest.threeDModel);
 
 
             //setText("TransactionId", secureRequest.transactionId);
@@ -107,20 +100,20 @@ window.addEventListener('DOMContentLoaded', () => {
         const secureOrderFormData = JSON.parse(secureOrderFormDataRaw);
 
         // paymentResult verilerini yerleştir
-        document.getElementById('summaryResponseCodeDisplay').textContent = data.ResponseCode;
-        document.getElementById('summaryResponseReasonCodeDisplay').textContent = data.ResponseReasonCode;
-        document.getElementById('summaryResponseMessageDisplay').textContent = data.ResponseMessage;
-        document.getElementById('summaryOrderIdDisplay').textContent = data.OrderId;
-        document.getElementById('summaryAuthorizationNumberDisplay').textContent = data.AuthorizationNumber;
-        document.getElementById('summaryRRNDisplay').textContent = data.RRN;
-        document.getElementById('summaryStanDisplay').textContent = data.Stan;
-        document.getElementById('summaryTransactionIdDisplay').textContent = data.TransactionId;
-        document.getElementById('summaryTransactionDateDisplay').textContent = new Date(data.TransactionDate).toLocaleString('tr-TR');
+        document.getElementById('summaryResponseCodeDisplay').textContent = data.Result.Code;
+        document.getElementById('summaryResponseReasonCodeDisplay').textContent = data.Result.ReasonCode;
+        document.getElementById('summaryResponseMessageDisplay').textContent = data.Result.Message;
+        document.getElementById('summaryOrderIdDisplay').textContent = data.TransactionResponse.OrderId;
+        document.getElementById('summaryAuthorizationNumberDisplay').textContent = data.AuthenticationResult.AuthorizationNumber;
+        document.getElementById('summaryRRNDisplay').textContent = data.AuthenticationResult.RRN;
+        document.getElementById('summaryStanDisplay').textContent = data.AuthenticationResult.Stan;
+        document.getElementById('summaryTransactionIdDisplay').textContent = data.TransactionResponse.TransactionId;
+        document.getElementById('summaryTransactionDateDisplay').textContent = new Date(data.TransactionResponse.TransactionDate).toLocaleString('tr-TR');
         //document.getElementById('summaryIsErrorDisplay').textContent = data.isError ? 'Evet' : 'Hayır';
         //document.getElementById('summarySuccessDisplay').textContent = data.success ? 'Evet' : 'Hayır';
 
         const resultStatus = document.getElementById('resultStatus');
-        if (data.IsSuccess) {
+        if (data.Result.Code == "000000") {
             resultStatus.textContent = 'Onaylandı';
             resultStatus.classList.add('success');
         } else {
@@ -134,9 +127,11 @@ window.addEventListener('DOMContentLoaded', () => {
             document.getElementById('summaryCurrencyDisplay').textContent = secureOrderFormData.currency;
             document.getElementById('summaryMerchantShopCodeDisplay').textContent = secureOrderFormData.shopCode;
             document.getElementById('summaryTransactionTypeDisplay').textContent = secureOrderFormData.transactionType;
-        }
+            document.getElementById('threeDModel').textContent = secureOrderFormData.storeType;
+        } else {
 
-        document.getElementById('summaryContainer').style.display = 'none';
+            document.getElementById('summaryContainer').style.display = 'none';
+        }
     }
     else {
         console.warn('localStorage verileri bulunamadı.');

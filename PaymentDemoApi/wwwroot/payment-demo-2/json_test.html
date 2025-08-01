@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>JSON Test</title>
+    <link rel="icon" type="image/x-icon" href="assets/images/logo_big.png">
+    <style>
+        body {
+            background-image: url('assets/images/service-bg.jpg'); /* veya tam URL: 'https://example.com/bg.jpg' */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-attachment: fixed;
+        }
+
+
+        .header {
+            background-color: rgba(51, 51, 51, 0.85); /* Transparan üst şerit */
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .header img {
+                height: 50px; /* Gerekirse ayarla */
+            }
+
+        .header-title {
+            font-weight: bold;
+            font-size: 24px;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 100px;
+        }
+
+            .button-container form {
+                display: inline-block;
+                margin: 10px;
+            }
+
+            .button-container button {
+                padding: 15px 30px;
+                background-color: #333;
+                color: white;
+                border: none;
+                cursor: pointer;
+                font-size: 16px;
+                transition: background-color 0.2s ease;
+            }
+
+                .button-container button:disabled {
+                    background-color: #888;
+                    cursor: not-allowed;
+                }
+
+
+                .button-container button:hover {
+                    background-color: #555;
+                }
+    </style>
+</head>
+<body>
+
+    <!-- ÜST BANNER -->
+    <div class="header">
+        <img src="assets/images/logo_big.png" alt="Logo">
+        <div class="header-title">SANAL POS TEST</div>
+    </div>
+
+    <!-- Checkboxlar -->
+    <div style="margin: 40px;">
+        <h3>İşlem Türleri:</h3>
+        <div id="checkboxGroup" style="display: flex; flex-wrap: wrap; gap: 20px;">
+            <label><input type="checkbox" name="operation" value="bos"> BOŞ</label>
+            <label><input type="checkbox" name="operation" value="satis"> SATIŞ</label>
+            <label><input type="checkbox" name="operation" value="iptal"> İPTAL</label>
+            <label><input type="checkbox" name="operation" value="iade"> İADE</label>
+            <label><input type="checkbox" name="operation" value="on_provizyon"> ÖN PROVİZYON</label>
+            <label><input type="checkbox" name="operation" value="on_provizyon_kapama"> ÖN PROVİZYON KAPAMA</label>
+            <label><input type="checkbox" name="operation" value="start_link"> START LINK</label>
+            <label><input type="checkbox" name="operation" value="get_link"> GET LINK</label>
+            <label><input type="checkbox" name="operation" value="puan_sorgulama"> PUAN SORGULAMA</label>
+        </div>
+    </div>
+
+    <!-- JSON Alanı -->
+    <div style="margin: 40px;">
+        <h3>JSON İçeriği:</h3>
+        <textarea id="jsonInput" rows="18" cols="100" placeholder="JSON verisi.."></textarea>
+    </div>
+
+    <!-- Non-Secure Key -->
+    <div style="margin: 40px;">
+        <h3>Non-Secure Key:</h3>
+        <input type="text" id="keyInput" style="width: 600px;" value="Ky1nXY8hD3D6pMzIBRnDX7aVnFUQ8l7x">
+    </div>
+
+    <!-- Butonlar -->
+    <div style="margin: 40px;">
+        <button onclick="clearFields()" style="padding: 10px 20px; background-color: #333; color: white; border: none;">Temizle</button>
+        <button onclick="calculateHash()" style="padding: 10px 20px; background-color: #333; color: white; border: none;">Hash Hesapla</button>
+        <button onclick="makeRequest()" style="padding: 10px 20px; background-color: #333; color: white; border: none;">İşlem Yap</button>
+    </div>
+
+    <!-- Sonuç Alanı -->
+    <div style="margin: 40px;">
+        <h3>Hesaplanan Hash:</h3>
+        <textarea id="hashResult" rows="3" cols="100" readonly></textarea>
+    </div>
+
+    <!-- API Response Alanı -->
+    <div style="margin: 40px;">
+        <h3>API'den Gelen Response:</h3>
+        <textarea id="responseOutput" rows="10" cols="100" readonly></textarea>
+    </div>
+
+    <!-- Script -->
+    <script>
+        const checkboxGroup = document.querySelectorAll('#checkboxGroup input[type="checkbox"]');
+        const jsonArea = document.getElementById("jsonInput");
+
+        const jsonTemplates = {
+            "bos": "",
+
+            "satis": `{
+                "userId": "003401000000777_ApiUser",
+                "password": "1234",
+                "merchantNumber": "003401000000777",
+                "shopCode": "shopCode005",
+                "transactionType": "SALEPOS",
+                "transactionId": null,
+                "cardHolderName": "test test",
+                "transactionAmount": "10000",
+                "currencyCode": "949",
+                "pan": "4920951536599528",
+                "cvv2": "000",
+                "expireDate": "2801",
+                "installmentCount": "0",
+                "securityType": "NonSecure",
+                "rewardAmount": "0",
+                "pfMerchantNumber": null,
+                "cardBrand": "M",
+                "apiKey": "123456-abcde",
+                "iPAddress": "192.168.1.1",
+                "hashData": "m1XXGLHJ0yw+HZKIV4x5g9FeJONjyuZS8PfO6UFy3iKm5zRHmk2Wk14NbvQAWdovrBTOe7w9efDWlcU2lrE6xw=="
+            }`,
+
+            "iptal": `{
+                "userId": "003401000000777_ApiUser",
+                "password": "1234",
+                "merchantNumber": "003401000000777",
+                "shopCode": "shopCode005",
+                "transactionType": "VOID",
+                "transactionId": "5faa6200-aac6-4210-854c-aaad71747696",
+                "securityType": "NonSecure",
+                "iPAddress": "192.168.1.1",
+                "hashData": "M5AfO6bBXYAl76lhuyKgtk8tsH8e+yT8HpYllHLeA9BrcOpRm4sqyEooJ0nlozHkbsv1OMJBhC2TZZzkO6x9CQ=="
+            }`,
+
+            "iade": `{
+                "userId": "003401000000777_ApiUser",
+                "password": "1234",
+                "merchantNumber": "003401000000777",
+                "shopCode": "shopCode005",
+                "transactionType": "REFUND",
+                "transactionId": "3867a0b1-d749-4952-9e5d-aed0426f4f90",
+                "transactionAmount": "10000",
+                "securityType": "NonSecure",
+                "iPAddress": "192.168.1.1",
+                "hashData": "BrF9/YJEDJAF7wbfHZxYlupvaX5stmmht1+fMm0zx5BEbZoMpBVkle+UZcQV4zlKhncIVeQL0hbu523hp4Xoqg=="
+            }`,
+
+            "on_provizyon": `{
+                "userId": "003401000000777_ApiUser",
+                "password": "1234",
+                "merchantNumber": "003401000000777",
+                "shopCode": "shopCode005",
+                "transactionType": "PREAUTH",
+                "transactionId": null,
+                "cardHolderName": "test test",
+                "transactionAmount": "10000",
+                "currencyCode": "949",
+                "pan": "4920951536599528",
+                "cvv2": "000",
+                "expireDate": "2801",
+                "installmentCount": "0",
+                "securityType": "NonSecure",
+                "rewardAmount": "0",
+                "pfMerchantNumber": null,
+                "cardBrand": "M",
+                "apiKey": "123456-abcde",
+                "iPAddress": "192.168.1.1",
+                "hashData": "xr9NXkey+rtjC7IcJnuK+d6Tb4GLTV5KRMikLeUndaKasz2H4zCfnnCtcKwuFBZORsNN8MxmasnWw6mN6p8a0Q=="
+            }`,
+
+            "on_provizyon_kapama": `{
+                "userId": "003401000000777_ApiUser",
+                "password": "1234",
+                "merchantNumber": "003401000000777",
+                "shopCode": "shopCode005",
+                "transactionType": "POSTAUTH",
+                "transactionId": "1ba707bf-54e0-4ec7-b57d-383e4d3be0f9",
+                "transactionAmount": "10000",
+                "currencyCode": "949",
+                "securityType": "NonSecure",
+                "iPAddress": "192.168.1.1",
+                "hashData": "bK907pDTU0azloB0QwnEEM0+O5Z8d2k0QBY04P/ESeqzcxQUEqijp01VzXpJ+mJ3vMiFwH03K+ADhUSODim9Sw=="
+            }`,
+
+            "start_link": `{
+                "merchantNumber": "003401000000777",
+                "userId": "003401000000777_ApiUser",
+                "shopCode": "shopCode005",
+                "ipAddress": "192.168.1.1",
+                "transactionType": "SalePos",
+                "orderId": "ORDER12345",
+                "transactionAmount": "10000",
+                "currencyCode": "949",
+                "additionalData": "Kampanya=YAZ2025",
+                "customerName": "Test Kullanıcı",
+                "customerPhone": "05001234567",
+                "customerEmail": "ilker.satur@pay.com",
+                "maxInstallmentCount": 3,
+                "language": "tr-TR",
+                "successUrl": "merchant.com/success",
+                "failUrl": "merchant.com/fail",
+                "resultUrl": "https://example.com/sonuc",
+                "randomNumber": "123456",
+                "hashData": "string",
+                "tokenExpireMinutes": 15
+            }`,
+
+            "get_link": `{
+                "merchantNumber": "003401000000777",
+                "userId": "003401000000777_ApiUser",
+                "shopCode": "shopCode005",
+                "ipAddress": "192.168.1.1",
+                "orderId": "ORDER12345",
+                "token": "abc123xyz456",
+                "additionalData": "Kampanya=YAZ2025",
+                "randomNumber": "654321",
+                "hashData": "string"
+            }`,
+
+            "puan_sorgulama": `{
+                "merchantNumber": "003401000000777",
+                "userId": "003401000000777_ApiUser",
+                "shopCode": "shopCode005",
+                "currencyCode": "949",
+                "pan": "4920951536599528",
+                "cvv2": "000",
+                "expireDate": "2801",
+                "orderId": "ORDER98765",
+                "transactionId": "txn-123456",
+                "trnDate": "2025-08-01T10:59:04.155Z",
+                "ipAddress": "192.168.1.1",
+                "randomNumber": "998877",
+                "hashData": "string"
+            }`
+        };
+
+        checkboxGroup.forEach(checkbox => {
+            checkbox.addEventListener("change", function () {
+                if (this.checked) {
+                    checkboxGroup.forEach(cb => {
+                        if (cb !== this) cb.checked = false;
+                    });
+
+                    const template = jsonTemplates[this.value];
+                    jsonArea.value = template ? template : "";
+                } else {
+                    jsonArea.value = "";
+                }
+            });
+        });
+
+        function clearFields() {
+            document.getElementById("jsonInput").value = "";
+            document.getElementById("keyInput").value = "";
+            document.getElementById("hashResult").value = "";
+            checkboxGroup.forEach(cb => cb.checked = false);
+        }
+
+        async function calculateHash() {
+            const jsonText = document.getElementById("jsonInput").value.trim();
+            const key = document.getElementById("keyInput").value.trim();
+
+            if (!jsonText || !key) {
+                alert("Lütfen hem JSON hem Key alanını doldurun.");
+                return;
+            }
+
+            try {
+                const encoder = new TextEncoder();
+                const keyData = encoder.encode(key);
+                const inputData = encoder.encode(jsonText);
+
+                const cryptoKey = await crypto.subtle.importKey(
+                    "raw", keyData, { name: "HMAC", hash: "SHA-512" }, false, ["sign"]
+                );
+
+                const signature = await crypto.subtle.sign("HMAC", cryptoKey, inputData);
+                const hashArray = Array.from(new Uint8Array(signature));
+                const base64Hash = btoa(String.fromCharCode(...hashArray));
+
+                document.getElementById("hashResult").value = base64Hash;
+            } catch (err) {
+                alert("Hash hesaplama hatası: " + err.message);
+            }
+        }
+
+        async function makeRequest() {
+            const requestText = document.getElementById("jsonInput").value.trim();
+            const responseArea = document.getElementById("responseOutput");
+            const buttons = document.querySelectorAll("button");
+
+            if (!requestText) {
+                alert("Lütfen JSON isteğini girin.");
+                return;
+            }
+
+            buttons.forEach(btn => btn.disabled = true);
+            responseArea.value = "Bekleniyor...";
+
+            try {
+                const requestData = JSON.parse(requestText);
+
+                const response = await fetch("https://localhost:7186/api/Payment", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(requestData)
+                });
+
+                const result = await response.json();
+                responseArea.value = JSON.stringify(result);
+            } catch (err) {
+                responseArea.value = "Hata: " + err.message;
+            } finally {
+                buttons.forEach(btn => btn.disabled = false);
+            }
+        }
+
+
+    </script>
+
+
+</body>
+</html>

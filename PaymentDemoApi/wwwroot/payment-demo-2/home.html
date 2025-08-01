@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Sanal POS Test</title>
+    <link rel="icon" type="image/x-icon" href="assets/images/logo_big.png">
+    <style>
+        body {
+            background-image: url('assets/images/service-bg.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-attachment: fixed;
+        }
+
+        .header {
+            background-color: rgba(51, 51, 51, 0.85);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .header img {
+                height: 50px;
+            }
+
+        .header-title {
+            font-weight: bold;
+            font-size: 24px;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 100px;
+        }
+
+            .button-container form {
+                display: inline-block;
+                margin: 10px;
+            }
+
+            .button-container button,
+            #rndBtn,
+            #hashBtn,
+            button[onclick^="clear"] {
+                padding: 12px 28px;
+                background-color: #444;
+                color: #fff;
+                border: none;
+                border-radius: 8px;
+                font-size: 16px;
+                font-weight: 500;
+                cursor: pointer;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+                transition: all 0.3s ease;
+            }
+
+                .button-container button:hover,
+                #rndBtn:hover,
+                #hashBtn:hover,
+                button[onclick^="clear"]:hover {
+                    background-color: #222;
+                    transform: translateY(-2px);
+                }
+
+                #hashBtn:disabled {
+                    background-color: #888;
+                    cursor: not-allowed;
+                    box-shadow: none;
+                    transform: none;
+                }
+    </style>
+</head>
+<body>
+
+    <!-- ÜST BANNER -->
+    <div class="header">
+        <img src="assets/images/logo_big.png" alt="Logo">
+        <div class="header-title">SANAL POS TEST</div>
+    </div>
+
+    <!-- Butonlar Yan Yana -->
+    <div class="button-container">
+        <form action="json_test.html" method="get">
+            <button type="submit">JSON Test</button>
+        </form>
+        <form action="html_test.html" method="get">
+            <button type="submit">HTML Test</button>
+        </form>
+        <form action="index.html" method="get">
+            <button type="submit">Test Ödeme Sayfası</button>
+        </form>
+    </div>
+
+</body>
+</html>
